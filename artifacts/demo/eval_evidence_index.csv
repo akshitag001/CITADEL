@@ -1,0 +1,36 @@
+claim_id,description,value,artefact,selector,provenance_tier,n_rows,n_positives,reportable,run_id
+headline.pr_auc,test window pr_auc,0.7672830541165124,defend_headline.csv,metric=pr_auc,measured,66615.0,432.0,True,3a888efe3099
+headline.recall_at_0.1%_fpr,test window recall_at_0.1%_fpr,0.6620370370370371,defend_headline.csv,metric=recall_at_0.1%_fpr,measured,66615.0,432.0,True,3a888efe3099
+headline.recall_at_0.5%_fpr,test window recall_at_0.5%_fpr,0.8009259259259259,defend_headline.csv,metric=recall_at_0.5%_fpr,measured,66615.0,432.0,True,3a888efe3099
+headline.partial_auc_fpr_0_2pct_mcclish,test window partial_auc_fpr_0_2pct_mcclish,0.9083879464425745,defend_headline.csv,metric=partial_auc_fpr_0_2pct_mcclish,measured,66615.0,432.0,True,3a888efe3099
+headline.precision_at_k,test window precision_at_k,1.0,defend_headline.csv,metric=precision_at_k,measured,66615.0,432.0,True,3a888efe3099
+headline.value_weighted_recall_A2plus,test window value_weighted_recall_A2plus,0.9128908678678894,defend_headline.csv,metric=value_weighted_recall_A2plus,measured,66615.0,432.0,True,3a888efe3099
+headline.recall_at_deployed_A2plus,test window recall_at_deployed_A2plus,0.7708333333333334,defend_headline.csv,metric=recall_at_deployed_A2plus,measured,66615.0,432.0,True,3a888efe3099
+headline.roc_auc,test window roc_auc,0.9875400719721581,defend_headline.csv,metric=roc_auc,measured,66615.0,432.0,True,3a888efe3099
+generalisation.withheld_variant_V4,recall at A2+ for withheld_variant_V4,0.2727272727272727,eval_generalisation.csv,group=withheld_variant_V4,measured,44.0,44.0,True,3a888efe3099
+generalisation.seen_variants,recall at A2+ for seen_variants,0.8273195876288659,eval_generalisation.csv,group=seen_variants,measured,388.0,388.0,True,3a888efe3099
+generalisation.withheld_evasion_signal_suppression,recall at A2+ for withheld_evasion_signal_suppression,0.875,eval_generalisation.csv,group=withheld_evasion_signal_suppression,measured,8.0,8.0,False,3a888efe3099
+generalisation.no_evasion,recall at A2+ for no_evasion,0.7781954887218046,eval_generalisation.csv,group=no_evasion,measured,266.0,266.0,True,3a888efe3099
+generalisation.seen_evasions,recall at A2+ for seen_evasions,0.7531645569620253,eval_generalisation.csv,group=seen_evasions,measured,158.0,158.0,True,3a888efe3099
+time_to_alert.episodes_caught_any_A2plus,episodes_caught_any_A2plus,0.8875739644970414,eval_time_to_alert_summary.csv,metric=episodes_caught_any_A2plus,measured,169.0,169.0,True,3a888efe3099
+time_to_alert.episodes_caught_before_first_loss,episodes_caught_before_first_loss,0.6923076923076923,eval_time_to_alert_summary.csv,metric=episodes_caught_before_first_loss,measured,169.0,169.0,True,3a888efe3099
+time_to_alert.episodes_caught_by_first_harmful_payment,episodes_caught_by_first_harmful_payment,0.7633136094674556,eval_time_to_alert_summary.csv,metric=episodes_caught_by_first_harmful_payment,measured,169.0,169.0,True,3a888efe3099
+time_to_alert.value_saved_share_heed_adjusted,value_saved_share_heed_adjusted,0.5864857437595189,eval_time_to_alert_summary.csv,metric=value_saved_share_heed_adjusted,derived,1505482.0,169.0,True,3a888efe3099
+time_to_alert.value_saved_share_upper_bound,value_saved_share_upper_bound,0.9344615460093377,eval_time_to_alert_summary.csv,metric=value_saved_share_upper_bound,derived,1505482.0,169.0,True,3a888efe3099
+time_to_alert.first_alert_at_step_S2,first_alert_at_step_S2,0.25443786982248523,eval_time_to_alert_summary.csv,metric=first_alert_at_step_S2,measured,169.0,169.0,True,3a888efe3099
+time_to_alert.first_alert_at_step_S3,first_alert_at_step_S3,0.6331360946745562,eval_time_to_alert_summary.csv,metric=first_alert_at_step_S3,measured,169.0,169.0,True,3a888efe3099
+budget.warnings_A2plus_per_1000,warnings_A2plus_per_1000,8.826840801621255,defend_alert_budget.csv,warnings_A2plus_per_1000,measured,66615.0,432.0,True,3a888efe3099
+budget.holds_A3_per_1000,holds_A3_per_1000,1.741349545898071,defend_alert_budget.csv,holds_A3_per_1000,measured,66615.0,432.0,True,3a888efe3099
+budget.analyst_capacity_k_per_1000,analyst_capacity_k_per_1000,1.536,defend_alert_budget.csv,analyst_capacity_k_per_1000,derived,66615.0,432.0,True,3a888efe3099
+budget.abstention_rate,abstention_rate,0.0005554304586054193,defend_alert_budget.csv,abstention_rate,measured,66615.0,432.0,True,3a888efe3099
+hard_negative.hard_negative_all.fpr_A2plus,FPR at A2+ on hard_negative_all,0.03285365191420038,eval_hard_negative_fpr.csv,population=hard_negative_all,measured,3683.0,0.0,True,3a888efe3099
+hard_negative.shape_all.fpr_A2plus,FPR at A2+ on shape_all,0.0019305019305019305,eval_hard_negative_fpr.csv,population=shape_all,measured,1036.0,0.0,True,3a888efe3099
+hard_negative.benign.fpr_A2plus,FPR at A2+ on benign,0.0020995410305654112,eval_hard_negative_fpr.csv,population=benign,measured,61442.0,0.0,True,3a888efe3099
+"baseline.citadel_deployed (fused, calibrated)","recall at 0.5% FPR, citadel_deployed (fused, calibrated)",0.8009259259259259,eval_baselines.csv,"model=citadel_deployed (fused, calibrated)",measured,66615.0,432.0,True,3a888efe3099
+baseline.citadel_L1_alone,"recall at 0.5% FPR, citadel_L1_alone",0.7916666666666666,eval_baselines.csv,model=citadel_L1_alone,measured,66615.0,432.0,True,3a888efe3099
+baseline.logistic_regression_all_features,"recall at 0.5% FPR, logistic_regression_all_features",0.47453703703703703,eval_baselines.csv,model=logistic_regression_all_features,measured,66615.0,432.0,True,3a888efe3099
+baseline.payee_is_first_time_alone,"recall at 0.5% FPR, payee_is_first_time_alone",0.032407407407407406,eval_baselines.csv,model=payee_is_first_time_alone,measured,66615.0,432.0,True,3a888efe3099
+baseline.ten_expert_rules_count,"recall at 0.5% FPR, ten_expert_rules_count",0.046296296296296294,eval_baselines.csv,model=ten_expert_rules_count,measured,66615.0,432.0,True,3a888efe3099
+cost.net_saving_share,net saving vs approve-everything (assumed costs),0.5760809881768837,defend_cost_summary.csv,scenario=assumed,derived,66615.0,432.0,True,3a888efe3099
+design.A2_budget,A2+ warning budget (design target),0.01,configs/default.yaml,ladder_budgets.A2_max_share,design-only,,,True,3a888efe3099
+design.A3_budget,A3 hold budget (design target),0.001,configs/default.yaml,ladder_budgets.A3_max_share,design-only,,,True,3a888efe3099

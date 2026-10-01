@@ -1,0 +1,55 @@
+{
+  "single_feature_max_auc": 0.7301746568473715,
+  "single_feature_gate": 0.95,
+  "single_feature_passes": true,
+  "artefacts_found": 0,
+  "raw_joint_probe": {
+    "recall_at_fpr": 0.5186567164179104,
+    "fpr_budget": 0.005,
+    "refit_spread": 0.0621890547263681,
+    "pr_auc_median": 0.4600290423228661,
+    "refits": 5,
+    "n_train": 232990,
+    "n_test": 134332,
+    "n_test_positives": 804,
+    "ceiling": 0.92,
+    "flag_measuring_generator": false
+  },
+  "derived_joint_probe": {
+    "recall_at_fpr": 0.835820895522388,
+    "fpr_budget": 0.005,
+    "refit_spread": 0.02238805970149249,
+    "pr_auc_median": 0.7901366162317527,
+    "refits": 5,
+    "n_train": 232990,
+    "n_test": 134332,
+    "n_test_positives": 804,
+    "ceiling": 0.92,
+    "flag_measuring_generator": false
+  },
+  "raw_vs_derived_gap": 0.3171641791044776,
+  "label_shuffle_null": {
+    "control": "label_shuffle_null",
+    "roc_auc": 0.49714572154267794,
+    "recall_at_0.5pct_fpr": 0.007863695937090432,
+    "expected_recall": 0.005,
+    "passes": true,
+    "n_test": 134332,
+    "n_test_positives": 763
+  },
+  "leakage_canary": {
+    "control": "leakage_canary",
+    "single_feature_auc": 0.9979044011031957,
+    "joint_recall": 0.986318407960199,
+    "single_probe_fires": true,
+    "joint_probe_fires": true,
+    "passes": true
+  },
+  "reportable": true,
+  "_provenance": {
+    "run_id": "3a888efe3099",
+    "config_hash": "a2f4e9895fd6064b",
+    "library_hash": "88370429fa1e1309",
+    "git_sha": "nogit"
+  }
+}

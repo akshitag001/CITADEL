@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Citadel Console</title>
+<meta name="description" content="Citadel: UPI scam-sequence shield. Customer screen, analyst queue, Scam Studio and evidence.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z' fill='%231f5fbf'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z" fill="currentColor" opacity=".9"/><path d="m8.5 12 2.4 2.4L15.8 9.5" stroke="var(--panel)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    Citadel <span class="muted" style="font-weight:400">UPI Scam-Sequence Shield</span>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Screens">
+    <button role="tab" data-tab="customer" aria-selected="true">Customer</button>
+    <button role="tab" data-tab="analyst" aria-selected="false">Analyst queue</button>
+    <button role="tab" data-tab="studio" aria-selected="false">Scam Studio</button>
+    <button role="tab" data-tab="results" aria-selected="false">Results &amp; evidence</button>
+    <button role="tab" data-tab="safeguards" aria-selected="false">Safeguards</button>
+  </nav>
+  <div class="mode"><span id="modepill" class="pill">loading…</span><span id="runpill" class="pill"></span>
+    <button class="btn" id="themebtn" title="Toggle theme" aria-label="Toggle colour theme">◐</button></div>
+</header>
+<main>
+  <section class="screen active" id="customer" role="tabpanel">
+    <h1>The payment screen, at the moment of harm</h1>
+    <p class="lead">One customer, one payment, step 3 of the scam. Toggle Citadel on and off to see the before/after
+      journey. Scenarios are recorded runs of the real pipeline, including legitimate payments that look alarming and
+      scams Citadel honestly misses.</p>
+    <div class="row" style="margin-bottom:12px">
+      <label for="scen" class="sr">Scenario</label><select id="scen" style="max-width:100%"></select>
+      <div class="seg" role="group" aria-label="Citadel on/off"><button id="withoutBtn" aria-pressed="false">Without Citadel</button><button id="withBtn" aria-pressed="true">With Citadel</button></div>
+      <div class="seg" role="group" aria-label="Language"><button id="enBtn" aria-pressed="true">English</button><button id="hiBtn" aria-pressed="false">हिन्दी</button></div>
+      <button class="btn" id="resetBtn">Restart</button>
+    </div>
+    <div class="phonewrap"><div class="phone" aria-label="UPI app mock"><div class="scr" id="phone"></div></div>
+      <div class="side card" id="custside"></div></div>
+  </section>
+
+  <section class="screen" id="analyst" role="tabpanel">
+    <h1>Analyst queue</h1>
+    <p class="lead">Held payments (A3) first, then warnings by risk. Every evidence view is written to the audit log.
+      Analysts see scores and evidence; customers never do.</p>
+    <div id="qnotice"></div>
+    <div class="queue"><div class="card"><h3>Open alerts <span id="qcount" class="pill"></span></h3><div class="qlist" id="qlist"></div></div>
+      <div class="card" id="qdetail"><p class="muted">Select an alert.</p></div></div>
+    <div class="card" style="margin-top:14px"><h3>Appeals inbox</h3><div id="appeals"></div></div>
+  </section>
+
+  <section class="screen" id="studio" role="tabpanel">
+    <h1>Scam Studio</h1>
+    <p class="lead">Compose a scam from the grammar: variant × evasion × customer segment. Illegal combinations are
+      disabled with the reason. The scam runs through the real generator and the real decision path.
+      <strong>New to the model, inside our grammar</strong>; outside the grammar is untested.</p>
+    <div class="card"><div class="row">
+      <label>Variant <select id="sv"></select></label>
+      <label>Evasion <select id="se"></select></label>
+      <label>Segment <select id="ss"></select></label>
+      <button class="btn primary" id="srun">Run scam</button></div>
+      <div id="swhy" class="muted" style="margin-top:8px;min-height:20px"></div></div>
+    <div id="sout" style="margin-top:14px"></div>
+  </section>
+
+  <section class="screen" id="results" role="tabpanel">
+    <h1>Results &amp; evidence</h1>
+    <p class="lead">Every number on this page is read from a CSV the pipeline wrote (file named under each panel).
+      Synthetic data only: these are upper bounds on real-world performance. A dash means the value was not computed.</p>
+    <div id="resnotice"></div>
+    <div class="grid g3" id="kpis"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Operating curve: recall vs alerts per 1,000 payments</h3><div id="opcurve"></div><div class="src">eval_operating_curve.csv</div></div>
+      <div class="card"><h3>Generalisation: scams the model never trained on</h3><div id="gen"></div><div class="src">eval_generalisation.csv · eval_lovo.csv</div></div>
+      <div class="card"><h3>Where in the sequence Citadel fires</h3><div id="tta"></div><div class="src">eval_time_to_alert_summary.csv · eval_episode_trace.csv</div></div>
+      <div class="card"><h3>Per variant (worst first)</h3><div id="pervar"></div><div class="src">eval_per_variant.csv</div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Layer ablation (negative rows published)</h3><div class="tablewrap" id="abl"></div><div class="src">eval_layer_ablation.csv</div></div>
+    <div class="card" style="margin-top:14px"><h3>Baselines on the same rows and FPR budget</h3><div class="tablewrap" id="base"></div><div class="src">eval_baselines.csv</div></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Customer harm: hard negatives and look-alike traffic</h3><div class="tablewrap" id="hn"></div><div class="src">eval_hard_negative_fpr.csv</div></div>
+      <div class="card"><h3>Fairness: A2+ by segment</h3><div class="tablewrap" id="fair"></div><div class="src">eval_fairness.csv</div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Evidence index</h3><div class="tablewrap" id="evidx"></div><div class="src">eval_evidence_index.csv</div></div>
+  </section>
+
+  <section class="screen" id="safeguards" role="tabpanel">
+    <h1>Safeguards</h1>
+    <p class="lead">Limitations first. Then what we collect, what we refuse to collect, what happens on a false
+      positive, and the misuse tests the build must pass.</p>
+    <div class="card"><h3>Known limitations (generated from the run's diagnostics)</h3><div id="limits"></div><div class="src">REPORT.md</div></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>What we use, and what we never collect</h3><div id="collect"></div></div>
+      <div class="card"><h3>On a false positive</h3><div id="fp"></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Misuse and safety tests (recorded results)</h3><div class="tablewrap" id="tests"></div><div class="src">pytest, recorded into the replay bundle</div></div>
+  </section>
+</main>
+<footer>Citadel · RAKSHAM PS2 · synthetic data only · <span id="foot"></span></footer>
+<script src="replay/replay.js" onerror="window.CITADEL_REPLAY = window.CITADEL_REPLAY || null"></script>
+<script src="app.js"></script>
+</body>
+</html>

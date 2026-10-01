@@ -1,0 +1,8 @@
+metric,value,ci_low,ci_high,numerator,denominator,n_sufficient,note,n_episodes,reportable,run_id
+episodes_caught_any_A2plus,0.8875739644970414,0.8310853067705097,0.9268347020851173,150,169,1,,169,True,3a888efe3099
+episodes_caught_before_first_loss,0.6923076923076923,0.6190940641817625,0.75697311578477,117,169,1,,169,True,3a888efe3099
+episodes_caught_by_first_harmful_payment,0.7633136094674556,0.6938248371909084,0.8210979169171131,129,169,1,,169,True,3a888efe3099
+value_saved_share_heed_adjusted,0.5864857437595189,,,882943,1505482,1,heed rates from configs/costs.yaml (assumption),169,True,3a888efe3099
+value_saved_share_upper_bound,0.9344615460093377,,,1406815,1505482,1,every alert heeded,169,True,3a888efe3099
+first_alert_at_step_S2,0.25443786982248523,0.1947348829561995,0.3250562564711514,43,169,1,,169,True,3a888efe3099
+first_alert_at_step_S3,0.6331360946745562,0.5582664633491863,0.7020877381661055,107,169,1,,169,True,3a888efe3099

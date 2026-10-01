@@ -1,0 +1,2 @@
+warnings_A2plus_per_1000,warning_budget_per_1000,holds_A3_per_1000,hold_budget_per_1000,analyst_capacity_k_per_1000,holds_within_capacity,scams_caught_A2plus,scams_total,abstained_to_review,abstention_rate,abstention_cases_per_day_at_test_scale,abstention_precision,holds_per_day_at_deployment_scale,analyst_cases_per_day_capacity,n_rows,n_positives,reportable,run_id
+8.826840801621255,10.0,1.741349545898071,1.0,1.536,False,333,432,37,0.0005554304586054193,4.112137030071803,0.8648648648648649,870.6747729490355,768,66615,432,True,3a888efe3099

@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+venv/
+data/
+artifacts/*
+!artifacts/demo/
+artifacts/demo/*.parquet
+artifacts/demo/bundle.pkl
+*.sqlite
+*.sqlite3
+.env
+node_modules/

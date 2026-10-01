@@ -1,0 +1,63 @@
+# Layer 0 — deterministic guards. No model. Work when the model is down.
+# They can ONLY add friction or a hold; they never decline. Each must be defensible to a customer and a
+# regulator, and each must show ZERO false positives on the benign + hard-negative + shape populations
+# (tests/test_l0_zero_fp_on_benign.py). Conditions are expressions over schema columns and registered
+# features (f_*); the loader rejects any unknown name. NaN never satisfies a comparison.
+rules:
+  - id: L0-01
+    title: Corroborated mule payee
+    condition: >-
+      f_payee_complaints >= 2 and f_payee_first_time == 1 and f_payee_age_days < 365
+      and f_payee_verified == 0 and (f_g_payee_dist_known_mule == 0 or f_g_payee_device_accounts >= 3
+      or (f_payee_passthrough_24h > 0.5 and f_payee_outbound_count_24h >= 2 and f_payee_unique_payers_7d >= 3))
+    min_action: A3
+    reason_codes: [R08, R14]
+    rationale: >-
+      A first payment to a young, unverified payee that two or more independent, aged customers reported
+      AND that shows a structural mule signal (confirmed mule, money passing straight through, or a handset shared by many
+      accounts). Complaints alone never trigger a hold (complaint-poisoning defence).
+
+  - id: L0-02
+    title: Remote control during a first payment to a new payee, far above normal
+    condition: >-
+      f_remote_access == 1 and (f_screen_share == 1 or f_call == 1) and f_attempts >= 2
+      and f_session_duration >= 300 and f_payee_first_time == 1 and f_amt_over_user_p99 == 1
+      and f_payee_verified == 0 and f_share_of_balance >= 0.3
+    min_action: A2
+    reason_codes: [R03, R01, R12, R14]
+    rationale: >-
+      A remote-CONTROL app (not a video-call screen share) is running alongside a screen share or call,
+      in a long multi-attempt session, while a large share of the balance goes to a never-paid payee far
+      above the customer's normal. A cooling-off warning costs a genuine
+      customer a minute.
+
+  - id: L0-03
+    title: Collect request approved faster than a human can read it
+    condition: >-
+      txn_type == 'collect' and request_source_known_contact == 0 and collect_request_age_s < 5
+    min_action: A2
+    reason_codes: [R02, R11, R14]
+    rationale: >-
+      An unknown requester's collect approved in under 5 seconds indicates an overlay or automation, or
+      approval under instruction.
+
+  - id: L0-04
+    title: Rapid split payments to a young account that passes money straight on
+    condition: >-
+      f_burst_to_new_payee >= 3 and f_burst_amount >= 20000 and f_payee_verified == 0
+      and f_payee_age_days < 365 and (f_payee_passthrough_24h > 0.5 or f_g_payee_dist_known_mule == 0)
+    min_action: A2
+    reason_codes: [R09, R06, R14]
+    rationale: >-
+      Three or more payments in 30 minutes to an account first paid in the same burst, totalling over
+      INR 20,000, where that young account passes money straight on or is a confirmed mule.
+
+  - id: L0-05
+    title: Structural impossibility in the event stream
+    condition: >-
+      collect_request_age_s < 0 or amount_inr <= 0 or user_id == payee_id
+    min_action: A0
+    log_only: true
+    reason_codes: [R14]
+    rationale: >-
+      Data-quality guard. Flagged and logged for engineering; never acted on against the customer.

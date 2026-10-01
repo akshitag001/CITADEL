@@ -1,0 +1,20 @@
+# Citadel default profile: the run whose numbers may enter the Round 1 PDF.
+seed: 7
+run_name: demo
+profile: default
+time: {tz: Asia/Kolkata, start_date: "2026-06-01"}
+population: {users: 24000, merchants: 4500, new_user_share: 0.15, new_merchant_share: 0.20,
+             informal_merchant_share: 0.02, screen_signal_observable_share: 0.6, family_device_share: 0.05}
+traffic: {days: 50, txn_per_user_day: 0.32, hard_negative_share: 0.04, shape_share: 0.03, festival_day: 34}
+attacks:
+  target_share: 0.005          # realised share is measured and recorded, not assumed
+  variants: [V1, V2, V3, V4, V5, V6]
+  evasion_share: 0.25
+  night_bias: 1.5
+  label_visible_share: 0.45
+sealed_holdout: {variant: V4, evasion: signal_suppression}
+split: {train_share: 0.52, purge_days: 3, calibration_share: 0.12, stats_share: 0.09, embargo_days: 2}
+ladder_budgets: {A1_max_share: 0.03, A2_max_share: 0.010, A3_max_share: 0.001}
+staffing: {analysts: 4, cases_per_hour: 12, shift_hours: 8, shifts_per_day: 2, deployment_payments_per_day: 500000}
+eval: {fpr_budgets: [0.001, 0.005], min_positives_for_headline: 200, bootstrap_resamples: 300, lovo: true}
+consent: {call_in_progress_available_share: 0.35}

@@ -1,0 +1,11 @@
+slice,n_rows,n_positives,day_from,day_to,run_id
+train,200596,818,0,25,3a888efe3099
+inner_fit,171153,704,0,21,3a888efe3099
+inner_valid,29443,114,22,25,3a888efe3099
+calib,56936,287,29,34,3a888efe3099
+stats,29290,144,35,38,3a888efe3099
+test,66615,432,41,49,3a888efe3099
+purge,23026,167,26,28,3a888efe3099
+embargo,16081,84,39,40,3a888efe3099
+sealed_removed,3194,277,0,38,3a888efe3099
+strict_sealing_would_remove,5533,896,,,3a888efe3099

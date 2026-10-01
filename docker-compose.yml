@@ -1,0 +1,8 @@
+services:
+  citadel:
+    build: .
+    ports: ["127.0.0.1:8000:8000"]
+    environment:
+      CITADEL_HMAC_SALT: change-me
+      CITADEL_ANALYST_TOKEN: demo-analyst-token
+      CITADEL_CUSTOMER_TOKEN: demo-customer-token

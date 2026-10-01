@@ -1,0 +1,9 @@
+# Tiny profile: unit tests only (never reportable).
+inherits: default.yaml
+run_name: tiny
+profile: tiny
+population: {users: 1500, merchants: 350}
+traffic: {days: 22, txn_per_user_day: 0.5, festival_day: 12}
+attacks: {target_share: 0.01}
+model: {max_iter: 60}
+eval: {bootstrap_resamples: 20, lovo: false, sample_size_fracs: [0.5, 1.0]}

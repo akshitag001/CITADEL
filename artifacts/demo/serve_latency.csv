@@ -1,0 +1,5 @@
+path,n,p50_ms,p95_ms,p99_ms,note,run_id
+stored_txn.server_compute,150,23.655,61.071499999999986,64.5025,"loopback, single process, laptop CPU; online path recomputes features from history",3a888efe3099
+stored_txn.round_trip,150,26.138750000427535,64.29371499998523,67.92276399937691,"loopback, single process, laptop CPU; online path recomputes features from history",3a888efe3099
+online_event.server_compute,150,184.57999999999998,216.25499999999982,241.23269999999994,"loopback, single process, laptop CPU; online path recomputes features from history",3a888efe3099
+online_event.round_trip,150,187.3683499998151,224.99359000048565,270.11407899994043,"loopback, single process, laptop CPU; online path recomputes features from history",3a888efe3099

@@ -1,0 +1,15 @@
+# Python 3.11 / 3.12 only. Not 3.13: the pinned numpy/scipy/scikit-learn builds below predate cp313 wheels.
+numpy==1.26.4
+pandas==2.2.1
+scipy>=1.11,<1.18
+scikit-learn==1.4.2
+pyarrow>=14
+PyYAML==6.0.1
+networkx>=3.2
+matplotlib>=3.8
+fastapi>=0.110
+uvicorn>=0.27
+pydantic>=2.5
+httpx>=0.27
+pytest>=8.0
+ruff>=0.4

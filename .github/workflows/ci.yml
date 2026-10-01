@@ -1,0 +1,28 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: lint
+        run: python -m ruff check src tests scripts
+      - name: gates (schema, causality, leakage canary, null control, L0 zero-FP, ladder, API, misuse)
+        run: python -m pytest -q
+      - name: quick end-to-end
+        run: python -m citadel run --quick
+      - name: determinism (two generations, identical hashes)
+        run: |
+          python -m citadel generate --config configs/tiny.yaml --run det1
+          python -m citadel generate --config configs/tiny.yaml --run det2
+          python -c "import hashlib,pathlib; h=lambda r: hashlib.sha256(pathlib.Path(f'data/{r}/transactions.parquet').read_bytes()).hexdigest(); assert h('det1')==h('det2'), 'non-deterministic'; print('deterministic')"
+      - name: console syntax
+        run: node --check frontend/app.js
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t citadel .

@@ -1,0 +1,2 @@
+analysts,cases_per_hour,shift_hours,shifts_per_day,cases_per_day,deployment_payments_per_day,capacity_share,k_test,k_per_1000,reportable,run_id
+4,12,8,2,768,500000,0.001536,102.32064,1.536,True,3a888efe3099

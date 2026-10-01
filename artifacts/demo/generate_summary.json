@@ -1,0 +1,46 @@
+{
+  "n_rows": 398531,
+  "n_eval_rows": 395403,
+  "n_attack_rows": 2209,
+  "realised_attack_share": 0.005586705209621576,
+  "target_attack_share": 0.005,
+  "n_episodes": 898,
+  "n_users": 25001,
+  "n_merchants": 4500,
+  "n_mules": 332,
+  "days": 50,
+  "row_kinds": {
+    "benign": 359326,
+    "hard_negative": 22027,
+    "shape": 11178,
+    "mule_outflow": 2966,
+    "attack": 2209,
+    "seasoning": 663,
+    "lure_credit": 162
+  },
+  "variants": {
+    "V1": 197,
+    "V3": 167,
+    "V5": 148,
+    "V4": 144,
+    "V2": 125,
+    "V6": 117
+  },
+  "evasions": {
+    "none": 671,
+    "slow_drip": 50,
+    "amount_splitting": 44,
+    "time_of_day_mimicry": 41,
+    "aged_mule": 38,
+    "payee_name_mimicry": 35,
+    "signal_suppression": 19
+  },
+  "label_visible_share_episodes": 0.4398663697104677,
+  "n_complaints": 978,
+  "_provenance": {
+    "run_id": "3a888efe3099",
+    "config_hash": "a2f4e9895fd6064b",
+    "library_hash": "88370429fa1e1309",
+    "git_sha": "nogit"
+  }
+}

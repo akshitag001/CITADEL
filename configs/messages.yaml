@@ -1,0 +1,72 @@
+# Customer-facing text. Plain language, no jargon, never a score, never an accusation.
+# Every reason code x language and every action level x language must exist (tests/test_messages_complete.py).
+languages: [en, hi]
+
+reasons:
+  R01: {en: "You have never paid this person or business before.",
+        hi: "आपने इस व्यक्ति या व्यवसाय को पहले कभी भुगतान नहीं किया है।"}
+  R02: {en: "This request is from someone who is not in your contacts.",
+        hi: "यह अनुरोध किसी ऐसे व्यक्ति से है जो आपके संपर्कों में नहीं है।"}
+  R03: {en: "Screen sharing or a remote-control app is on. Banks never ask you to share your screen.",
+        hi: "स्क्रीन शेयरिंग या रिमोट-कंट्रोल ऐप चालू है। बैंक कभी स्क्रीन शेयर करने को नहीं कहते।"}
+  R04: {en: "You are on a call. Scammers often guide people through payments over the phone.",
+        hi: "आप कॉल पर हैं। धोखेबाज़ अक्सर फ़ोन पर निर्देश देकर भुगतान करवाते हैं।"}
+  R05: {en: "This is much larger than your usual payments.",
+        hi: "यह राशि आपके सामान्य भुगतान से बहुत अधिक है।"}
+  R06: {en: "This account is receiving money from many unrelated people.",
+        hi: "इस खाते में कई अनजान लोगों से पैसे आ रहे हैं।"}
+  R07: {en: "The receiving account is very new.",
+        hi: "पैसे पाने वाला खाता बहुत नया है।"}
+  R08: {en: "Other customers have reported this account.",
+        hi: "दूसरे ग्राहकों ने इस खाते की शिकायत की है।"}
+  R09: {en: "Several payments were tried in a short time.",
+        hi: "कम समय में कई बार भुगतान की कोशिश की गई है।"}
+  R10: {en: "Your phone or SIM changed recently.",
+        hi: "हाल ही में आपका फ़ोन या SIM बदला गया है।"}
+  R11: {en: "You are being rushed. Real banks and companies give you time.",
+        hi: "आपसे जल्दबाज़ी करवाई जा रही है। असली बैंक और कंपनियाँ आपको समय देती हैं।"}
+  R12: {en: "This payment would use most of your balance.",
+        hi: "इस भुगतान से आपका ज़्यादातर बैलेंस खत्म हो जाएगा।"}
+  R13: {en: "This matches a common scam pattern.",
+        hi: "यह एक आम धोखाधड़ी के तरीके से मिलता है।"}
+  R14: {en: "A safety rule paused this payment.",
+        hi: "एक सुरक्षा नियम के कारण यह भुगतान रोका गया है।"}
+  R15: {en: "We want a person to double-check this payment.",
+        hi: "हम चाहते हैं कि एक व्यक्ति इस भुगतान की दोबारा जाँच करे।"}
+
+actions:
+  A0: {title: {en: "", hi: ""}, body: {en: "", hi: ""}, buttons: []}
+  A1:
+    title: {en: "Check before you pay", hi: "भुगतान से पहले जाँच लें"}
+    body: {en: "Take a moment to confirm you know who you are paying.",
+           hi: "एक पल रुककर पक्का कर लें कि आप किसे भुगतान कर रहे हैं।"}
+    buttons: [ask_trusted, continue]
+  A2:
+    title: {en: "Stop. This looks like a scam pattern.", hi: "रुकिए। यह धोखाधड़ी जैसा लग रहा है।"}
+    body: {en: "Please wait {cooling_s} seconds. Nobody genuine will mind if you check first.",
+           hi: "कृपया {cooling_s} सेकंड रुकें। कोई भी असली व्यक्ति बुरा नहीं मानेगा अगर आप पहले जाँच लें।"}
+    buttons: [call_bank, ask_trusted, cancel, continue_after]
+    cooling_s: 60
+  A3:
+    title: {en: "We have paused this payment to keep you safe", hi: "आपकी सुरक्षा के लिए हमने यह भुगतान रोका है"}
+    body: {en: "Your money has NOT left your account. A bank officer will review it within {sla_min} minutes and may call you.",
+           hi: "आपका पैसा आपके खाते से नहीं गया है। बैंक अधिकारी {sla_min} मिनट में इसकी जाँच करेंगे और आपको कॉल कर सकते हैं।"}
+    buttons: [call_bank, request_release, appeal]
+    sla_min: 30
+
+txn_type_screens:
+  pay: {en: "Once sent, UPI payments usually cannot be reversed.",
+        hi: "भेजने के बाद UPI भुगतान आमतौर पर वापस नहीं होता।"}
+  collect: {en: "Approving this request SENDS INR {amount} from your account. You never need your PIN to receive money.",
+            hi: "इस अनुरोध को मंज़ूर करने पर आपके खाते से ₹{amount} कटेंगे। पैसे पाने के लिए कभी PIN की ज़रूरत नहीं होती।"}
+  qr_pay: {en: "QR codes are only for paying, never for receiving money.",
+           hi: "QR कोड सिर्फ़ भुगतान करने के लिए होते हैं, पैसे पाने के लिए कभी नहीं।"}
+
+buttons:
+  call_bank: {en: "Call your bank on the number printed on your card", hi: "अपने कार्ड पर छपे नंबर पर बैंक को कॉल करें"}
+  ask_trusted: {en: "Ask a family member or friend to confirm", hi: "किसी परिवार के सदस्य या दोस्त से पूछ लें"}
+  cancel: {en: "Cancel payment", hi: "भुगतान रद्द करें"}
+  continue: {en: "Continue", hi: "आगे बढ़ें"}
+  continue_after: {en: "I know this person, continue", hi: "मैं इस व्यक्ति को जानता/जानती हूँ, आगे बढ़ें"}
+  request_release: {en: "Request release", hi: "भुगतान जारी करने का अनुरोध करें"}
+  appeal: {en: "Disagree? Raise an appeal", hi: "असहमत हैं? अपील करें"}

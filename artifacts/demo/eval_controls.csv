@@ -1,0 +1,5 @@
+control,roc_auc,recall_at_0.5pct_fpr,expected_recall,passes,n_test,n_test_positives,single_feature_auc,joint_recall,single_probe_fires,joint_probe_fires,recall_at_fpr,fpr_budget,refit_spread,pr_auc_median,refits,n_train,ceiling,flag_measuring_generator,reportable,run_id
+label_shuffle_null,0.49714572154267794,0.007863695937090432,0.005,True,134332.0,763.0,,,,,,,,,,,,,True,3a888efe3099
+leakage_canary,,,,True,,,0.9979044011031957,0.986318407960199,True,True,,,,,,,,,True,3a888efe3099
+raw_joint_probe,,,,,134332.0,804.0,,,,,0.5186567164179104,0.005,0.0621890547263681,0.4600290423228661,5.0,232990.0,0.92,False,True,3a888efe3099
+derived_joint_probe,,,,,134332.0,804.0,,,,,0.835820895522388,0.005,0.02238805970149249,0.7901366162317527,5.0,232990.0,0.92,False,True,3a888efe3099

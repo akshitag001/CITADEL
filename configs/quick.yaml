@@ -1,0 +1,7 @@
+# Quick profile: smoke-test scale (< 3 min end to end). Every metric it writes is stamped not_reportable.
+inherits: default.yaml
+run_name: quick
+profile: quick
+population: {users: 4000, merchants: 900}
+traffic: {days: 24, txn_per_user_day: 0.42, festival_day: 15}
+eval: {bootstrap_resamples: 60, lovo: false, sample_size_fracs: [0.25, 0.5, 1.0]}

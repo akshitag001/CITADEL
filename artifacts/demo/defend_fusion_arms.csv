@@ -1,0 +1,7 @@
+arm,channels,ladder_non_degenerate,stats_pr_auc,test_pr_auc,test_recall_at_0.5pct_fpr,test_recall_at_0.1pct_fpr,n_test_rows,n_test_positives,selected,selection_rule,run_id
+L1_alone,L1,True,0.7714357441481314,0.7552379267616169,0.7824074074074074,0.6620370370370371,66615,432,False,max stats-slice PR-AUC subject to a non-degenerate ladder (test never used),3a888efe3099
+L1_L2_weighted,L1+L2,True,0.7719141472151271,0.7650898385794079,0.7916666666666666,0.6666666666666666,66615,432,False,max stats-slice PR-AUC subject to a non-degenerate ladder (test never used),3a888efe3099
+equal_weights_all,L1+L2+IF,True,0.7292230273371585,0.7152526618699925,0.7245370370370371,0.6018518518518519,66615,432,False,max stats-slice PR-AUC subject to a non-degenerate ladder (test never used),3a888efe3099
+drop_dead_channels,L1+L2+IF,True,0.7292230273371585,0.7152526618699925,0.7245370370370371,0.6018518518518519,66615,432,False,max stats-slice PR-AUC subject to a non-degenerate ladder (test never used),3a888efe3099
+rank_average,L1+L2+IF,True,0.23910515089084824,0.33775036829910987,0.40046296296296297,0.22685185185185186,66615,432,False,max stats-slice PR-AUC subject to a non-degenerate ladder (test never used),3a888efe3099
+stacked_logistic,L1+L2+IF,True,0.7828606535295954,0.7672830541165124,0.8009259259259259,0.6620370370370371,66615,432,True,max stats-slice PR-AUC subject to a non-degenerate ladder (test never used),3a888efe3099

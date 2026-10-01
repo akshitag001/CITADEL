@@ -1,0 +1,8 @@
+# Cost model. EVERY value here is an ASSUMPTION, not a measurement. Results computed from it are
+# simulator-internal and are swept (evaluate/costs.py) so no conclusion rests on one guess.
+assumptions_note: "Assumptions for a mid-size Indian PSP; INR. Not measured. Swept x0.5 .. x2 in the report."
+analyst_review_inr: 250          # loaded cost of one analyst case
+false_hold_inr: 900              # customer harm + support contact + churn risk for holding a genuine payment
+friction_inr: {A1: 2, A2: 40}    # cost of a nudge / a warning with cooling-off to a genuine customer
+heed_rate: {A1: 0.15, A2: 0.55, A3: 0.95}   # share of scams stopped when that action fires
+recovery_rate: 0.10              # share of scam losses recovered after the fact with no intervention

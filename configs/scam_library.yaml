@@ -1,0 +1,262 @@
+# Citadel scam grammar — DATA, not code.
+# Every key under `signals` must be a real schema column (the loader fails otherwise).
+# Signals fire PROBABILISTICALLY. A nullable signal the institution cannot observe for this victim
+# (no SDK / no consent) stays missing even when the scam "fires" it.
+#
+# Signal spec forms:
+#   {p: 0.7}                         set the flag to 1 with probability p (else keep the benign value)
+#   {p: 0.8, lognormal: [median, s]} overwrite with a lognormal draw with probability p
+#   {p: 0.8, uniform: [lo, hi]}      overwrite with a uniform draw
+#   {p: 0.8, int_range: [lo, hi]}    overwrite with an integer in [lo, hi]
+#   {p: 0.8, value: v}               overwrite with a constant
+#
+# Amount spec forms (S2 preliminary and S3 harmful payments):
+#   {base: baseline, multiple: [lo, hi]}   multiple of the victim's own typical payment
+#   {base: balance, share: [lo, hi]}       share of the victim's balance
+#   {base: absolute, inr: [lo, hi]}        absolute rupee range
+
+attacker_levers: [amount, pacing, payee_naming, mule_age, time_of_day, signal_suppression]
+victim_immutable: [user_age_band, user_tenure_days, digital_literacy, device_age_days, home_tier,
+                   balance_band, account_balance_inr]
+
+segments:
+  senior:          {title: "Senior (60+)", age_band: ["60+"]}
+  low_literacy:    {title: "Low digital literacy", digital_literacy: ["low"]}
+  first_time_user: {title: "First-time UPI user (<120 days)", max_tenure_days: 120}
+  young_adult:     {title: "Young adult (18-25)", age_band: ["18-25"]}
+  mainstream:      {title: "Any customer"}
+
+variants:
+  V1:
+    name: fake_refund_collect
+    title: Fake-refund collect request
+    story: >-
+      A caller says a refund or cashback is due and sends a UPI collect request; the victim enters the
+      PIN believing it receives money. Approving a collect SENDS money.
+    allowed_segments: [senior, low_literacy, first_time_user, young_adult, mainstream]
+    victim_weights:
+      user_age_band: {"18-25": 0.7, "26-40": 1.0, "41-60": 1.3, "60+": 1.7}
+      digital_literacy: {low: 2.0, med: 1.2, high: 0.6}
+    lure_lead_minutes: [5, 240]
+    mule: {purpose_opened_share: 0.5}
+    steps:
+      S1: {name: lure, observed: false, channel: "call / SMS promising a refund or cashback"}
+      S2:
+        name: pressure
+        prelim: {p: 0.0}
+        signals:
+          call_in_progress: {p: 0.65}
+          screen_share_active: {p: 0.12}
+          remote_access_app_detected: {p: 0.06}
+      S3:
+        name: harmful_payment
+        txn_type: collect
+        payments: [1, 2]
+        gap_minutes: [1, 6]
+        amount: {base: baseline, multiple: [0.8, 5.0]}
+        first_time_payee_p: 0.93
+        in_phonebook_p: 0.03
+        signals:
+          collect_request_age_s: {p: 1.0, lognormal: [75, 0.8]}
+          session_duration_s: {p: 0.7, lognormal: [150, 0.6]}
+          attempts_in_session: {p: 0.4, int_range: [2, 3]}
+        automation_overlay_p: 0.12
+      S4: {name: mule_fanout, fanout: [2, 5], delay_minutes: [5, 120]}
+
+  V2:
+    name: screen_share_bank_support
+    title: Screen-share "bank support" scam
+    story: >-
+      A fake bank or wallet support agent asks the victim to install a screen-sharing or remote-control
+      app "to fix a blocked account", then walks them through paying a new payee.
+    allowed_segments: [senior, low_literacy, first_time_user, mainstream]
+    victim_weights:
+      user_age_band: {"18-25": 0.5, "26-40": 0.9, "41-60": 1.4, "60+": 2.0}
+      digital_literacy: {low: 2.2, med: 1.1, high: 0.5}
+    lure_lead_minutes: [10, 90]
+    mule: {purpose_opened_share: 0.45}
+    steps:
+      S1: {name: lure, observed: false, channel: "search-ad / SMS with a fake helpline number"}
+      S2:
+        name: remote_access
+        prelim: {p: 0.0}
+        signals:
+          remote_access_app_detected: {p: 0.7}
+          screen_share_active: {p: 0.72}
+          call_in_progress: {p: 0.85}
+      S3:
+        name: harmful_payment
+        txn_type: pay
+        payments: [1, 3]
+        gap_minutes: [2, 15]
+        amount: {base: balance, share: [0.3, 0.9]}
+        first_time_payee_p: 0.95
+        in_phonebook_p: 0.0
+        signals:
+          session_duration_s: {p: 0.85, lognormal: [900, 0.5]}
+          attempts_in_session: {p: 0.6, int_range: [2, 4]}
+      S4: {name: mule_fanout, fanout: [3, 6], delay_minutes: [5, 60]}
+
+  V3:
+    name: fake_kyc_link
+    title: Fake-KYC link, then payment
+    story: >-
+      An SMS says the account will be blocked unless KYC is updated. The link leads to a "verification
+      fee" and then a larger payment; some victims re-register UPI on a new device on the scammer's
+      instructions.
+    allowed_segments: [senior, low_literacy, first_time_user, mainstream]
+    victim_weights:
+      user_age_band: {"18-25": 0.8, "26-40": 1.0, "41-60": 1.3, "60+": 1.4}
+      digital_literacy: {low: 1.6, med: 1.2, high: 0.7}
+    lure_lead_minutes: [15, 600]
+    mule: {purpose_opened_share: 0.55}
+    steps:
+      S1: {name: lure, observed: false, channel: "SMS with a KYC-update link"}
+      S2:
+        name: device_rebind_and_fee
+        prelim: {p: 0.6, count: [1, 1], amount: {base: absolute, inr: [1, 99]}, lead_minutes: [3, 30]}
+        signals:
+          new_device_flag: {p: 0.4}
+          sim_change_7d: {p: 0.12}
+      S3:
+        name: harmful_payment
+        txn_type: pay
+        payments: [1, 2]
+        gap_minutes: [2, 20]
+        amount: {base: baseline, multiple: [2.0, 8.0]}
+        first_time_payee_p: 0.95
+        in_phonebook_p: 0.0
+        signals:
+          session_duration_s: {p: 0.6, lognormal: [240, 0.6]}
+      S4: {name: mule_fanout, fanout: [2, 4], delay_minutes: [10, 180]}
+
+  V4:
+    name: qr_scan_to_receive
+    title: QR "scan to receive money"
+    story: >-
+      A fake buyer on a marketplace sends a QR code "to receive payment". Scanning and entering the PIN
+      PAYS the scammer. QR codes are only ever for paying.
+    allowed_segments: [young_adult, first_time_user, mainstream]
+    victim_weights:
+      user_age_band: {"18-25": 1.3, "26-40": 1.2, "41-60": 0.9, "60+": 0.6}
+      digital_literacy: {low: 1.3, med: 1.1, high: 0.8}
+      is_seller: {"1": 4.0, "0": 1.0}
+    lure_lead_minutes: [5, 120]
+    mule: {purpose_opened_share: 0.5}
+    steps:
+      S1: {name: lure, observed: false, channel: "marketplace buyer chat"}
+      S2:
+        name: pressure
+        prelim: {p: 0.0}
+        signals:
+          call_in_progress: {p: 0.5}
+      S3:
+        name: harmful_payment
+        txn_type: qr_pay
+        payments: [1, 3]
+        gap_minutes: [1, 5]
+        amount: {base: baseline, multiple: [1.0, 6.0]}
+        first_time_payee_p: 0.97
+        in_phonebook_p: 0.0
+        signals:
+          session_duration_s: {p: 0.6, lognormal: [110, 0.5]}
+          attempts_in_session: {p: 0.6, int_range: [2, 3]}
+      S4: {name: mule_fanout, fanout: [2, 5], delay_minutes: [5, 120]}
+
+  V5:
+    name: utility_disconnection_threat
+    title: Utility / courier disconnection threat
+    story: >-
+      A call or SMS says electricity will be cut tonight or a parcel is held unless a small dues payment
+      is made now; small amounts, urgency, often split across attempts.
+    allowed_segments: [senior, low_literacy, mainstream]
+    victim_weights:
+      user_age_band: {"18-25": 0.5, "26-40": 0.9, "41-60": 1.4, "60+": 1.8}
+      digital_literacy: {low: 1.6, med: 1.1, high: 0.7}
+      home_tier: {"1": 0.8, "2": 1.1, "3": 1.3}
+    lure_lead_minutes: [3, 60]
+    mule: {purpose_opened_share: 0.6}
+    steps:
+      S1: {name: lure, observed: false, channel: "call / SMS threatening disconnection"}
+      S2:
+        name: urgency
+        prelim: {p: 0.5, count: [1, 1], amount: {base: absolute, inr: [10, 50]}, lead_minutes: [2, 15]}
+        signals:
+          call_in_progress: {p: 0.85}
+      S3:
+        name: harmful_payment
+        txn_type: pay
+        payments: [1, 3]
+        gap_minutes: [1, 10]
+        amount: {base: absolute, inr: [800, 6000]}
+        first_time_payee_p: 0.9
+        in_phonebook_p: 0.0
+        signals:
+          session_duration_s: {p: 0.6, lognormal: [200, 0.6]}
+      S4: {name: mule_fanout, fanout: [2, 4], delay_minutes: [10, 180]}
+
+  V6:
+    name: task_job_scam
+    title: Task / job scam
+    story: >-
+      A "work from home" task pays small rewards first, then demands growing deposits to "unlock"
+      earnings, each to a different account.
+    allowed_segments: [young_adult, first_time_user, mainstream]
+    victim_weights:
+      user_age_band: {"18-25": 2.0, "26-40": 1.4, "41-60": 0.6, "60+": 0.2}
+      digital_literacy: {low: 0.8, med: 1.2, high: 1.0}
+    lure_lead_minutes: [600, 4320]
+    mule: {purpose_opened_share: 0.5}
+    lure_credits: {count: [1, 2], inr: [50, 300]}
+    steps:
+      S1: {name: lure, observed: false, channel: "messaging-app job offer"}
+      S2:
+        name: trust_building
+        prelim: {p: 1.0, count: [1, 3], amount: {base: absolute, inr: [100, 1000]}, lead_minutes: [360, 4320]}
+        signals:
+          call_in_progress: {p: 0.1}
+      S3:
+        name: escalation
+        txn_type: pay
+        payments: [1, 3]
+        gap_minutes: [10, 240]
+        amount: {base: baseline, multiple: [3.0, 15.0]}
+        first_time_payee_p: 0.85
+        new_mule_per_payment: true
+        in_phonebook_p: 0.0
+        signals:
+          session_duration_s: {p: 0.4, lognormal: [180, 0.6]}
+      S4: {name: mule_fanout, fanout: [2, 6], delay_minutes: [10, 240]}
+
+evasions:
+  amount_splitting:
+    title: Amount splitting
+    levers: [amount, pacing]
+    parts: [2, 4]
+    part_gap_minutes: [1, 8]
+  slow_drip:
+    title: Slow-drip pacing
+    levers: [pacing]
+    gap_hours: [2, 30]
+  aged_mule:
+    title: Aged / recruited mule
+    levers: [mule_age]
+    min_mule_age_days: 365
+    fanout_delay_minutes: [120, 720]
+  payee_name_mimicry:
+    title: Payee-name mimicry
+    levers: [payee_naming]
+    similarity: [0.82, 0.97]
+    requires:
+      txn_types_any: [pay, collect]
+      reason: "the QR flow shows the QR's registered name, not a saved contact, so contact-name mimicry has no lever"
+  time_of_day_mimicry:
+    title: Time-of-day mimicry
+    levers: [time_of_day]
+  signal_suppression:
+    title: Signal suppression (video call instead of screen share)
+    levers: [signal_suppression]
+    suppress: [screen_share_active, remote_access_app_detected, call_in_progress]
+    requires:
+      signals_any: [screen_share_active, remote_access_app_detected]
+      reason: "the variant uses no screen-share or remote-access signal, so there is nothing to suppress"

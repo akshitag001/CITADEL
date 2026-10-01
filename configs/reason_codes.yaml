@@ -1,0 +1,39 @@
+# Closed reason-code vocabulary. Every decision carries 1-3 of these and nothing else.
+# `predicate` is evaluated over features (rule-card attribution, see DECISIONS.md D-008); `family` maps
+# the code to the model feature group whose permutation importance orders competing codes.
+codes:
+  R01: {name: FIRST_TIME_PAYEE, family: payee, predicate: "f_payee_first_time == 1",
+        analyst: "Payer has never paid this payee before"}
+  R02: {name: UNSOLICITED_COLLECT, family: sequence,
+        predicate: "f_txn_type == 1 and f_req_known_contact == 0",
+        analyst: "Collect request from a requester who is not a known contact"}
+  R03: {name: REMOTE_ACCESS_ACTIVE, family: raw, predicate: "f_remote_access == 1 or f_screen_share == 1",
+        analyst: "Screen share or remote-control app active during the payment"}
+  R04: {name: CALL_IN_PROGRESS, family: raw, predicate: "f_call == 1",
+        analyst: "Phone call in progress (consented signal)"}
+  R05: {name: AMOUNT_ABOVE_USUAL, family: user, predicate: "f_amt_ratio_user >= 4 or f_amt_over_user_p99 == 1",
+        analyst: "Amount far above the payer's usual"}
+  R06: {name: PAYEE_FAN_IN, family: payee,
+        predicate: "f_payee_unique_payers_7d >= 3 and f_payee_new_payer_share_7d >= 0.6",
+        analyst: "Payee is receiving from many unrelated first-time payers"}
+  R07: {name: PAYEE_NEW_ACCOUNT, family: payee, predicate: "f_payee_age_days < 90 and f_payee_verified == 0",
+        analyst: "Payee account is under 90 days old and unverified"}
+  R08: {name: PAYEE_COMPLAINTS, family: payee, predicate: "f_payee_complaints >= 1",
+        analyst: "Corroborated complaints against the payee"}
+  R09: {name: RAPID_RETRY, family: sequence,
+        predicate: "f_burst_to_new_payee >= 2 or f_attempts >= 3 or f_same_payee_count_30m >= 2",
+        analyst: "Repeated or split attempts in a short time"}
+  R10: {name: NEW_DEVICE_OR_SIM, family: raw, predicate: "f_new_device == 1 or f_sim_change == 1",
+        analyst: "New device binding or recent SIM change"}
+  R11: {name: URGENCY_PATTERN, family: sequence,
+        predicate: "f_collect_unknown_fast == 1 or (f_session_ratio_user >= 5 and f_payee_first_time == 1)",
+        analyst: "Unusually fast approval or an unusually long guided session"}
+  R12: {name: BALANCE_DRAIN, family: user, predicate: "f_share_of_balance >= 0.4",
+        analyst: "Payment drains a large share of the balance"}
+  R13: {name: SEQUENCE_MATCH, family: graph,
+        predicate: "f_g_payee_dist_known_mule <= 2 or f_anomaly_then_newpayee == 1 or f_inbound_from_new_24h >= 1",
+        analyst: "Matches a known scam sequence or sits near a confirmed mule"}
+  R14: {name: STRUCTURAL_BLOCK, family: rule, predicate: null,
+        analyst: "A deterministic safety rule (L0) applied"}
+  R15: {name: MODEL_UNCERTAIN_REVIEW, family: model, predicate: null,
+        analyst: "Layers disagree; routed to a human instead of guessing"}

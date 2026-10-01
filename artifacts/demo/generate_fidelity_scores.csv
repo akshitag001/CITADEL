@@ -1,0 +1,11 @@
+metric,benign,attack,note,run_id
+benford_mad_first_digit,0.0039793943455356025,0.0071185313015136925,MAD vs Benford; < 0.015 close conformity,3a888efe3099
+round_number_mass_100,0.09237170455296877,0.003168854685377999,share of amounts that are multiples of 100,3a888efe3099
+diurnal_shape_corr,1.0,0.8877027465427251,attack hour histogram vs benign (night bias on top),3a888efe3099
+weekly_shape_corr,1.0,0.3598115833913491,attack weekday histogram vs benign,3a888efe3099
+amount_tail_p99_over_p50,18.426227261930077,40.1566122430292,tail heaviness,3a888efe3099
+per_user_log_amount_std_median,0.9924977932701164,,per-customer consistency,3a888efe3099
+payee_indegree_p50,5.0,,payee-graph shape,3a888efe3099
+payee_indegree_p99,86.0,,payee-graph shape (hubs),3a888efe3099
+scam_legit_log_amount_overlap,0.6117284900914088,,histogram overlap coefficient (1 = identical),3a888efe3099
+first_time_payee_share,0.33184382264225804,0.4427342688999547,share of payments to a never-paid payee,3a888efe3099

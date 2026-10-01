@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph PSP["PSP / bank boundary · salted-HMAC ids · no message content · retention TTL"]
+    E[UPI event: pay / collect / QR] --> F[Causal features: user, sequence, payee, graph]
+    S[Switch state: payee history, device, SIM] --> F
+    C[Consented signals: screen share, call - missing not zero] -.-> F
+    F --> L0[L0 deterministic rules - no model]
+    F --> L1[L1 boosted trees - calibrated]
+    F --> L2[L2 payee / mule graph]
+    L1 --> FU[Fusion chosen by ablation -> calibrated risk]
+    L2 --> FU
+    FU --> LAD[Action ladder A0-A3 under alert budget]
+    L0 --> LAD
+    LAD --> RC[Reason codes - closed list, en/hi]
+  end
+  RC --> CU[Customer screen: band + reasons, never a score]
+  RC --> AQ[Analyst queue: evidence, audit log]
+  AQ --> FB[Feedback, appeals, late labels]
+  FB -.retrain.-> L1

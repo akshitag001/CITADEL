@@ -1,0 +1,9 @@
+metric,value,ci_low,ci_high,n_rows,n_positives,reportable,note,run_id
+pr_auc,0.7672830541165124,0.7246127859443532,0.801045009139926,66615,432,True,lift over base rate 118.3x (base 0.6485%),3a888efe3099
+recall_at_0.1%_fpr,0.6620370370370371,0.6161780742428358,0.7050396464825261,66615,432,True,realised FPR 0.0997% (66/66183),3a888efe3099
+recall_at_0.5%_fpr,0.8009259259259259,0.7606923107778207,0.835854884854994,66615,432,True,realised FPR 0.4986% (330/66183),3a888efe3099
+partial_auc_fpr_0_2pct_mcclish,0.9083879464425744,0.8924021500000141,0.922677898574831,66615,432,True,McClish-standardised,3a888efe3099
+precision_at_k,1.0,0.9637055378535369,1.0,66615,432,True,k=102 from staffing; recall at k = 0.236,3a888efe3099
+value_weighted_recall_A2plus,0.9128908678678894,,,66615,432,True,share of scam INR at A2+ (warning or hold),3a888efe3099
+recall_at_deployed_A2plus,0.7708333333333334,0.728915669729193,0.8079768063403403,66615,432,True,at the deployed ladder; A2+ alert share 0.883%,3a888efe3099
+roc_auc,0.987540071972158,,,66615,432,True,"computed, NOT a headline (dominated by true negatives at a <1% base rate)",3a888efe3099
